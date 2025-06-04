@@ -1,12 +1,11 @@
 // ce fichier est UNIQUEMENT appelé dans le term (via package.json)
 // **JAMAIS** utilisé dans la codebase
 
+import { Pool } from 'pg';
+import { migrate } from 'drizzle-orm/node-postgres/migrator'; // migrate est une fct de drizzle qui permet de migrer la db
+import { NodePgDatabase, drizzle } from 'drizzle-orm/node-postgres';
 
-import { Pool } from "pg";
-import { migrate } from "drizzle-orm/node-postgres/migrator"; // migrate est une fct de drizzle qui permet de migrer la db
-import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
-
-import { env } from "./env";
+import { env } from './env';
 const { DATABASE_URL } = env;
 
 async function main() {
@@ -16,12 +15,12 @@ async function main() {
     // On initialise cette connexion pour avoir une instance de NodePgDatabase (et profiter de drizzle avec)
     const db: NodePgDatabase = drizzle(pool);
 
-    console.log("Migrating database...");
+    console.log('Migrating database...');
 
     // on appelle la fonction migrate de drizzle pour appliquer la migration
-    await migrate(db, { migrationsFolder: "src/migrations" });
+    await migrate(db, { migrationsFolder: 'src/migrations' });
 
-    console.log("Database migrated successfully !");
+    console.log('Database migrated successfully !');
 
     // On ferme la connexion à la db
     await pool.end();

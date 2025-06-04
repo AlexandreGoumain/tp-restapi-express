@@ -1,6 +1,6 @@
-import { Router } from "express";
-import controller from "../controllers/comments.controller";
-import { isAuthenticated } from "../middlewares";
+import { Router } from 'express';
+import controller from '../controllers/comments.controller';
+import { isAuthenticated } from '../middlewares';
 
 const router = Router();
 

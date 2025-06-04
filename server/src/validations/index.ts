@@ -1,1 +1,1 @@
-export * from "./users.validations"
+export * from './users.validations';

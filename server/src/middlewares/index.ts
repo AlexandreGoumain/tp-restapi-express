@@ -1,2 +1,2 @@
-export * from "./requestLogger"
-export * from "./isauthenticated"
+export * from './requestLogger';
+export * from './isauthenticated';

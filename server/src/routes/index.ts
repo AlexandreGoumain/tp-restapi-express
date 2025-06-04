@@ -1,12 +1,12 @@
 // http://localhost:3000
 
-import { Router } from "express";
-import postRouter from "./posts.routes"
-import commentRouter from "./comments.routes"
-import authRouter from "./auth.routes"
+import { Router } from 'express';
+import authRouter from './auth.routes';
+import commentRouter from './comments.routes';
+import postRouter from './posts.routes';
+import userRouter from './users.routes';
 
 const router = Router();
-
 
 // http://localhost:3000/posts
 router.use('/posts', postRouter);
@@ -18,9 +18,8 @@ router.use('/comments', commentRouter);
 router.use('/auth', authRouter);
 
 // http://localhost:3000/users
-
+router.use('/users', userRouter);
 
 export default router;
-
 
 // SERVER -> ROUTER (ce fichier) -> ROUTES (/users, /posts, ...) -> CONTROLLERS -> [MODELS] <-> DB

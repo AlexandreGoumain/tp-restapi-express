@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import { env } from "../config/env";
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { env } from '../config/env';
 
-import { userModel } from "../models/users.model";
-import { APIResponse } from "../utils";
-import logger from "../utils/logger";
-import { hashPassword, verifyPassword } from "../utils/password";
+import { userModel } from '../models/users.model';
+import { APIResponse } from '../utils';
+import logger from '../utils/logger';
+import { hashPassword, verifyPassword } from '../utils/password';
 
-import { z } from "zod";
-import { userRegisterValidation } from "../validations";
+import { z } from 'zod';
+import { userRegisterValidation } from '../validations';
 
 const { JWT_SECRET, NODE_ENV } = env;
 
@@ -21,7 +21,7 @@ const authController = {
                 return APIResponse(
                     response,
                     null,
-                    "Les identifiants saisits sont incorrects",
+                    'Les identifiants saisits sont incorrects',
                     400
                 );
             }
@@ -31,7 +31,7 @@ const authController = {
                 return APIResponse(
                     response,
                     null,
-                    "Les identifiants saisits sont incorrects",
+                    'Les identifiants saisits sont incorrects',
                     400
                 );
 
@@ -40,20 +40,20 @@ const authController = {
 
             // generation du jwt
             const accessToken = jwt.sign({ id: user.id }, JWT_SECRET, {
-                expiresIn: "1h",
+                expiresIn: '1h',
             });
 
-            response.cookie("accessToken", accessToken, {
+            response.cookie('accessToken', accessToken, {
                 httpOnly: true, // true - cookie réservé uniquement pour communication HTTP - pas accessible en js
-                sameSite: "strict", // protection CSRF
-                secure: NODE_ENV === "production", // le cookie ne sera envoyé que sur du HTTPS uniquement en prod
+                sameSite: 'strict', // protection CSRF
+                secure: NODE_ENV === 'production', // le cookie ne sera envoyé que sur du HTTPS uniquement en prod
             });
-            APIResponse(response, null, "Vous êtes bien connecté", 200);
+            APIResponse(response, null, 'Vous êtes bien connecté', 200);
         } catch (err: any) {
             logger.error(
                 `Erreur lors de la connexion de l'utilisateur: ${err.message}`
             );
-            APIResponse(response, null, "Erreur serveur", 500);
+            APIResponse(response, null, 'Erreur serveur', 500);
         }
     },
     register: async (request: Request, response: Response) => {
@@ -63,14 +63,13 @@ const authController = {
             );
 
             // on vérifie qu'un user n'a pas déjà cet adresse email
-            const [emailAlreadyExists] = await userModel.findByCredentials(
-                email
-            );
+            const [emailAlreadyExists] =
+                await userModel.findByCredentials(email);
             if (emailAlreadyExists) {
                 return APIResponse(
                     response,
                     null,
-                    "Cette adresse email est déjà utilisée",
+                    'Cette adresse email est déjà utilisée',
                     400
                 );
             }
@@ -82,7 +81,7 @@ const authController = {
                 return APIResponse(
                     response,
                     null,
-                    "Un problème est survenu lors du hash",
+                    'Un problème est survenu lors du hash',
                     500
                 );
             }
@@ -97,11 +96,11 @@ const authController = {
                 return APIResponse(
                     response,
                     null,
-                    "Un problème est survenu",
+                    'Un problème est survenu',
                     500
                 );
 
-            APIResponse(response, newUser.id, "Vous êtes inscrit", 200);
+            APIResponse(response, newUser.id, 'Vous êtes inscrit', 200);
         } catch (err: any) {
             logger.error(
                 `Erreur lors de l'inscription de l'utilisateur: ${err.message}`
@@ -110,16 +109,16 @@ const authController = {
                 return APIResponse(
                     response,
                     err.errors,
-                    "Le formulaire est invalide",
+                    'Le formulaire est invalide',
                     400
                 );
             }
-            APIResponse(response, null, "Erreur serveur", 500);
+            APIResponse(response, null, 'Erreur serveur', 500);
         }
     },
     logout: async (request: Request, response: Response) => {
-        response.clearCookie("accessToken");
-        APIResponse(response, null, "Vous êtes déconnecté", 200);
+        response.clearCookie('accessToken');
+        APIResponse(response, null, 'Vous êtes déconnecté', 200);
     },
 };
 
