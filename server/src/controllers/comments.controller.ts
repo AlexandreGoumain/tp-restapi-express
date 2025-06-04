@@ -3,6 +3,8 @@ import { commentModel } from '../models';
 import logger from '../utils/logger';
 import { APIResponse } from '../utils/response';
 
+// TODO tester tout les comment controllers dans postman
+
 const commentsController = {
     get: async (request: Request, response: Response) => {
         try {
@@ -26,8 +28,8 @@ const commentsController = {
     create: async (request: Request, response: Response) => {
         try {
             const { comment, spotId } = request.body;
-            const { id } = response.locals.user; // { id: "xxx" }
-            logger.info('[POST] Créer un commentaire'); // Log d'information en couleur
+            const { id } = response.locals.user;
+            logger.info('[POST] Créer un commentaire');
             const newComment = await commentModel.create({
                 authorId: id,
                 comment,
