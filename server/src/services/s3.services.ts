@@ -1,5 +1,6 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { s3 } from '../config/s3.config'; // Ajustez le chemin selon votre structure
+import { env } from '../config/env';
 
 export interface UploadOptions {
   buffer: Buffer;
@@ -18,16 +19,15 @@ export async function uploadToS3(options: UploadOptions): Promise<string> {
   
   // Configuration de l'upload
   const command = new PutObjectCommand({
-    Bucket: process.env.S3_BUCKET_NAME!,
+    Bucket: env.S3_BUCKET!,
     Key: uniqueFileName,
     Body: buffer,
-    ContentType: mimeType,
-    ACL: 'public-read'
+    ContentType: mimeType
   });
   
   // Upload vers S3
   await s3.send(command);
   
   // Retourner l'URL publique
-  return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uniqueFileName}`;
+  return `https://${env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${uniqueFileName}`;
 }
