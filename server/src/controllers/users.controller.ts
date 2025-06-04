@@ -215,13 +215,15 @@ export const userController = {
 
     delete: async (request: Request, response: Response) => {
         try {
-            const { idUser } = request.params;
+            const { idUserRequest } = request.body;
 
             logger.info('[DELETE] Supprimer un utilisateur');
 
-            const user = await userModel.get(idUser);
+            console.log(idUserRequest);
 
-            if (!user || user.id !== idUser)
+            const user = await userModel.get(idUserRequest);
+
+            if (!user || user.id !== idUserRequest)
                 return APIResponse(
                     response,
                     null,
@@ -229,7 +231,7 @@ export const userController = {
                     403
                 );
 
-            await userModel.delete(idUser);
+            await userModel.delete(idUserRequest);
             APIResponse(response, null, 'OK', 201);
         } catch (err: any) {
             logger.error(
