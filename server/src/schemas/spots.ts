@@ -1,13 +1,15 @@
-import { pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
 
 import { users } from './users';
 
-export const spots = pgTable('spots', {
+export const spots = pgTable('spot', {
     id: uuid('id').defaultRandom().primaryKey(),
-    title: varchar('title', { length: 255 }).notNull(),
-    content: text('content').notNull(),
-    author: uuid('author_id')
+    userId: uuid('user_id')
         .references(() => users.id, { onDelete: 'cascade' })
-        .notNull(), // la colonne author_id est une relation avec la table users,
-    created_at: timestamp('created_at').defaultNow(),
+        .notNull(),
+    description: varchar('description', { length: 255 }),
+    address: varchar('address', { length: 255 }),
+    pictureUrl: varchar('picture_url', { length: 2048 }),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    modifiedAt: timestamp('modified_at').notNull().defaultNow(),
 });
