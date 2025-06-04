@@ -1,2 +1,3 @@
 export * from './comments.model';
-export * from './posts.model';
+export * from './spots.model';
+export * from './users.model';

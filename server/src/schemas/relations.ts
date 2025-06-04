@@ -1,8 +1,8 @@
 import { relations } from 'drizzle-orm';
-import { users, spots, evaluations, comments } from './';
+import { comments, evaluations, spots, users } from './';
 
 export const userRelations = relations(users, ({ many }) => ({
-    posts: many(spots), // Un user peut avoir plusieurs spots
+    spots: many(spots), // Un user peut avoir plusieurs spots
     comments: many(evaluations), // Un user peut avoir plusieurs commentaires
 }));
 

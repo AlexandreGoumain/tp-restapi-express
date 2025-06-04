@@ -4,7 +4,7 @@ import { NewSpot } from '../entities/Spots';
 import { spots } from '../schemas';
 import logger from '../utils/logger';
 
-export const postModel = {
+export const spotModel = {
     create: (spot: NewSpot) => {
         try {
             return db
@@ -12,7 +12,12 @@ export const postModel = {
                 .values(spot)
                 .returning({
                     id: spots.id,
-                    title: spots.title,
+                    userId: spots.userId,
+                    description: spots.description,
+                    address: spots.address,
+                    pictureUrl: spots.pictureUrl,
+                    createdAt: spots.createdAt,
+                    modifiedAt: spots.modifiedAt,
                 })
                 .execute();
         } catch (err: any) {
@@ -25,7 +30,7 @@ export const postModel = {
         try {
             return db
                 .delete(spots)
-                .where(and(eq(spots.id, id), eq(spots.author, authorId)));
+                .where(and(eq(spots.id, id), eq(spots.userId, authorId)));
         } catch (err: any) {
             logger.error('Impossible de supprimer le spot: +', err.message);
             throw new Error('Le spot ne peut pas être supprimé');
@@ -42,16 +47,6 @@ export const postModel = {
                             username: true,
                         },
                     },
-                    comments: {
-                        with: {
-                            user: {
-                                columns: {
-                                    id: true,
-                                    username: true,
-                                },
-                            },
-                        },
-                    },
                 },
             });
         } catch (err: any) {
@@ -66,30 +61,18 @@ export const postModel = {
                 where: eq(spots.id, id),
                 columns: {
                     id: true,
-                    title: true,
-                    content: true,
-                    created_at: true,
+                    userId: true,
+                    description: true,
+                    address: true,
+                    pictureUrl: true,
+                    createdAt: true,
+                    modifiedAt: true,
                 },
                 with: {
                     user: {
                         columns: {
                             id: true,
                             username: true,
-                        },
-                    },
-                    comments: {
-                        columns: {
-                            id: true,
-                            content: true,
-                            createdAt: true,
-                        },
-                        with: {
-                            user: {
-                                columns: {
-                                    id: true,
-                                    username: true,
-                                },
-                            },
                         },
                     },
                 },
@@ -105,7 +88,7 @@ export const postModel = {
             return db
                 .update(spots)
                 .set(spot)
-                .where(and(eq(spots.id, id), eq(spots.author, authorId)))
+                .where(and(eq(spots.id, id), eq(spots.userId, authorId)))
                 .execute();
         } catch (err: any) {
             logger.error("Impossible d'update le post: +", err.message);

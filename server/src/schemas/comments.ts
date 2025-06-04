@@ -10,6 +10,6 @@ export const comments = pgTable('comments', {
     authorId: uuid('user_id')
         .references(() => users.id, { onDelete: 'cascade' })
         .notNull(),
-    content: text('content').notNull(),
+    comment: text('comment').notNull(),
     createdAt: timestamp('created_at').defaultNow(),
 });

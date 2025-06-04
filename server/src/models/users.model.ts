@@ -34,15 +34,17 @@ export const userModel = {
                     spots: {
                         columns: {
                             id: true,
-                            title: true,
-                            content: true,
-                            created_at: true,
+                            description: true,
+                            address: true,
+                            pictureUrl: true,
+                            createdAt: true,
+                            modifiedAt: true,
                         },
                     },
                     comments: {
                         columns: {
                             id: true,
-                            content: true,
+                            comment: true,
                             spotId: true,
                             createdAt: true,
                         },

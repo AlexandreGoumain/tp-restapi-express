@@ -49,7 +49,12 @@ const authController = {
                 sameSite: 'strict', // protection CSRF
                 secure: NODE_ENV === 'production', // le cookie ne sera envoyé que sur du HTTPS uniquement en prod
             });
-            APIResponse(response, null, 'Vous êtes bien connecté', 200);
+            APIResponse(
+                response,
+                { accessToken, userId: user.id },
+                'Vous êtes bien connecté',
+                200
+            );
         } catch (err: any) {
             logger.error(
                 `Erreur lors de la connexion de l'utilisateur: ${err.message}`
