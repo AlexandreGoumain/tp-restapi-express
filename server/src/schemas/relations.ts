@@ -1,29 +1,29 @@
 import { relations } from "drizzle-orm";
-import { users, comments, posts } from "./";
+import { users, spots, evaluations } from "./";
 
 export const userRelations = relations(users, ({ many }) => ({
-    posts: many(posts), // un user peut avoir plusieurs posts
-    comments: many(comments) // un user peut avoir plusieurs commentaires
+    posts: many(spots), // Un user peut avoir plusieurs spots
+    comments: many(evaluations) // Un user peut avoir plusieurs commentaires
 }));
 
-export const commentRelations = relations(comments, ({ one }) => ({
-    user: one(users, { // Le nom de la table est ref ici, un commentaire lié à 1 seul user
-        // 1erement, on recup la colonne qui fait ref à users dans la table comment
-        fields: [comments.authorId],
-        // 2emement on recup la colonne/table qui fait ref à la colonne authorId de la table comments
-        references: [users.id]
-    }),
-
-    post: one(posts, {
-        fields: [comments.postId],
-        references: [posts.id]
-    })
-}));
-
-export const postRelation = relations(posts, ({ one, many }) => ({
+export const spotRelations = relations(spots, ({ one, many }) => ({
+    // Un spot n'a qu'un seul user (créateur) 
     user: one(users, {
-        fields: [posts.author],
+        fields: [spots.userId],
         references: [users.id]
     }),
-    comments: many(comments)
+    comments: many(evaluations) // Un spot peut avoir plusieurs commentaires
+}));
+
+export const evaluationRelation = relations(evaluations, ({ one, many }) => ({
+    // Une evalution n'est faite que par un seul user
+    user: one(users, {
+        fields: [evaluations.userId],
+        references: [users.id]
+    }),
+    // Une evaluation concerne un seul spot
+    spot: one(spots, {
+        fields: [evaluations.spotId],
+        references: [spots.id]
+    })
 }))
