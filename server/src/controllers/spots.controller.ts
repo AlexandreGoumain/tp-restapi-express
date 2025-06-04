@@ -7,77 +7,77 @@ const postsController = {
     get: async (request: Request, response: Response) => {
         try {
             const { id } = request.params;
-            logger.info('[GET] Récupérer un post'); // Log d'information en couleur
-            const post = await spotModel.get(id);
-            if (!post)
-                return APIResponse(response, null, 'Post inexistant', 404);
-            APIResponse(response, post, 'OK');
+            logger.info('[GET] Récupérer un spot'); // Log d'information en couleur
+            const spot = await spotModel.get(id);
+            if (!spot)
+                return APIResponse(response, null, 'Spot inexistant', 404);
+            APIResponse(response, spot, 'OK');
         } catch (error: any) {
             logger.error(
-                'Erreur lors de la récupération du post: ' + error.message
+                'Erreur lors de la récupération du spot: ' + error.message
             );
             APIResponse(
                 response,
                 null,
-                'Erreur lors de la récupération du post',
+                'Erreur lors de la récupération du spot',
                 500
             );
         }
     },
     create: async (request: Request, response: Response) => {
         try {
-            const { id } = request.params;
-            const { description, address, pictureUrl } = request.body;
-            logger.info('[POST] Créer un post'); // Log d'information en couleur
+            const { description, address, idUser } = request.body;
+            logger.info('[POST] Créer un spot');
             await spotModel.create({
-                userId: id,
+                userId: idUser,
                 description,
                 address,
-                pictureUrl,
             });
             APIResponse(response, null, 'OK', 201);
         } catch (error: any) {
             logger.error(
-                'Erreur lors de la récupération du post: ' + error.message
+                'Erreur lors de la récupération du spot: ' + error.message
             );
             APIResponse(
                 response,
                 null,
-                'Erreur lors de la récupération du post',
+                'Erreur lors de la récupération du spot',
                 500
             );
         }
     },
     delete: async (request: Request, response: Response) => {
         try {
-            const { id, userId } = request.params;
+            const { idSpot } = request.params;
+            const { userId } = request.body;
 
-            logger.info('[DELETE] Supprimer un post'); // Log d'information en couleur
-            await spotModel.delete(id, userId);
+            console.log('idSpot', idSpot);
+            console.log('userId', userId);
+
+            logger.info('[DELETE] Supprimer un spot'); // Log d'information en couleur
+            await spotModel.delete(idSpot, userId);
             APIResponse(response, null, 'OK', 201);
         } catch (error: any) {
             logger.error(
-                'Erreur lors de la suppression du post: ' + error.message
+                'Erreur lors de la suppression du spot: ' + error.message
             );
             APIResponse(
                 response,
                 null,
-                'Erreur lors de la suppression du post',
+                'Erreur lors de la suppression du spot',
                 500
             );
         }
     },
     update: async (request: Request, response: Response) => {
         try {
-            const { id, userId } = request.params;
-            const { description, address, pictureUrl } = request.body;
+            const { idSpot, userId, description, address } = request.body;
 
-            logger.info('[UPDATE] Update un post'); // Log d'information en couleur
-            await spotModel.update(id, userId, {
+            logger.info('[UPDATE] Update un spot'); // Log d'information en couleur
+            await spotModel.update(idSpot, userId, {
                 userId,
                 description,
                 address,
-                pictureUrl,
             });
             APIResponse(response, null, 'OK', 201);
         } catch (error: any) {
@@ -85,7 +85,7 @@ const postsController = {
             APIResponse(response, null, 'Erreur lors de la màj du post', 500);
         }
     },
-    getAll: async (request: Request, response: Response) => {
+    getAll: async (response: Response) => {
         try {
             logger.info('[GET] Récupérer tout les spots'); // Log d'information en couleur
             const spots = await spotModel.getAll();
@@ -93,6 +93,23 @@ const postsController = {
             if (!spots)
                 return APIResponse(response, null, 'Aucun spot trouvé', 404);
 
+            APIResponse(response, spots, 'OK');
+        } catch (error: any) {
+            logger.error(
+                'Erreur lors de la récupération des spots: ' + error.message
+            );
+            APIResponse(
+                response,
+                null,
+                'Erreur lors de la récupération des spots',
+                500
+            );
+        }
+    },
+    getSpotsByUser: async (request: Request, response: Response) => {
+        try {
+            const { userId } = request.body;
+            const spots = await spotModel.getSpotsByUser(userId);
             APIResponse(response, spots, 'OK');
         } catch (error: any) {
             logger.error(

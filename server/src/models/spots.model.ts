@@ -15,7 +15,6 @@ export const spotModel = {
                     userId: spots.userId,
                     description: spots.description,
                     address: spots.address,
-                    pictureUrl: spots.pictureUrl,
                     createdAt: spots.createdAt,
                     modifiedAt: spots.modifiedAt,
                 })
@@ -64,7 +63,6 @@ export const spotModel = {
                     userId: true,
                     description: true,
                     address: true,
-                    pictureUrl: true,
                     createdAt: true,
                     modifiedAt: true,
                 },
@@ -80,6 +78,27 @@ export const spotModel = {
         } catch (err: any) {
             logger.error('Impossible de récupérer le spot: +', err.message);
             throw new Error('Le spot ne peut pas être récupéré');
+        }
+    },
+
+    getSpotsByUser: (userId: string) => {
+        try {
+            return db.query.spots.findMany({
+                where: eq(spots.userId, userId),
+                with: {
+                    user: {
+                        columns: {
+                            id: true,
+                            username: true,
+                        },
+                    },
+                },
+            });
+        } catch (err: any) {
+            logger.error(
+                `Impossible de récupérer les spots de l'utilisateur: ${err.message}`
+            );
+            return [];
         }
     },
 

@@ -36,7 +36,6 @@ export const userModel = {
                             id: true,
                             description: true,
                             address: true,
-                            pictureUrl: true,
                             createdAt: true,
                             modifiedAt: true,
                         },
