@@ -41,14 +41,14 @@ export const commentModel = {
             return db
                 .select({
                     id: comments.id,
-                    content: comments.content,
+                    comment: comments.comment,
                     author: {
                         id: users.id,
                         username: users.username,
                     },
                     spot: {
                         id: spots.id,
-                        title: spots.title,
+                        description: spots.description,
                     },
                 })
                 .from(comments)
@@ -69,7 +69,7 @@ export const commentModel = {
             return db
                 .select({
                     id: comments.id,
-                    content: comments.content,
+                    comment: comments.comment,
                     author: {
                         id: users.id,
                         username: users.username,

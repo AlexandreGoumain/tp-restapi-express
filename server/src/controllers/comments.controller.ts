@@ -25,15 +25,15 @@ const commentsController = {
     },
     create: async (request: Request, response: Response) => {
         try {
-            const { content, postId } = request.body;
+            const { comment, spotId } = request.body;
             const { id } = response.locals.user; // { id: "xxx" }
             logger.info('[POST] Créer un commentaire'); // Log d'information en couleur
-            const comment = await commentModel.create({
+            const newComment = await commentModel.create({
                 authorId: id,
-                content,
-                postId,
+                comment,
+                spotId,
             });
-            APIResponse(response, comment, 'OK', 201);
+            APIResponse(response, newComment, 'OK', 201);
         } catch (error: any) {
             logger.error(
                 'Erreur lors de la récupération du commentaire: ' +
@@ -69,13 +69,13 @@ const commentsController = {
     update: async (request: Request, response: Response) => {
         try {
             const { id } = request.params;
-            const { content, postId } = request.body;
+            const { comment, spotId } = request.body;
             const { user } = response.locals;
             logger.info('[UPDATE] Update un commentaire'); // Log d'information en couleur
             await commentModel.update(id, user.id, {
                 authorId: user.id,
-                content,
-                postId,
+                comment,
+                spotId,
             });
             APIResponse(response, null, 'OK', 201);
         } catch (error: any) {

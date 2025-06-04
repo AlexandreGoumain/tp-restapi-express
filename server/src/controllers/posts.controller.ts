@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { postModel } from '../models';
+import { spotModel } from '../models';
 import logger from '../utils/logger';
 import { APIResponse } from '../utils/response';
 
@@ -8,7 +8,7 @@ const postsController = {
         try {
             const { id } = request.params;
             logger.info('[GET] Récupérer un post'); // Log d'information en couleur
-            const post = await postModel.get(id);
+            const post = await spotModel.get(id);
             if (!post)
                 return APIResponse(response, null, 'Post inexistant', 404);
             APIResponse(response, post, 'OK');
@@ -26,13 +26,14 @@ const postsController = {
     },
     create: async (request: Request, response: Response) => {
         try {
-            const { content, title } = request.body;
-            const { user } = response.locals;
+            const { id } = request.params;
+            const { description, address, pictureUrl } = request.body;
             logger.info('[POST] Créer un post'); // Log d'information en couleur
-            await postModel.create({
-                author: user.id,
-                content,
-                title,
+            await spotModel.create({
+                userId: id,
+                description,
+                address,
+                pictureUrl,
             });
             APIResponse(response, null, 'OK', 201);
         } catch (error: any) {
@@ -49,11 +50,10 @@ const postsController = {
     },
     delete: async (request: Request, response: Response) => {
         try {
-            const { id } = request.params;
-            const { user } = response.locals;
+            const { id, userId } = request.params;
 
             logger.info('[DELETE] Supprimer un post'); // Log d'information en couleur
-            await postModel.delete(id, user.id);
+            await spotModel.delete(id, userId);
             APIResponse(response, null, 'OK', 201);
         } catch (error: any) {
             logger.error(
@@ -69,15 +69,15 @@ const postsController = {
     },
     update: async (request: Request, response: Response) => {
         try {
-            const { id } = request.params;
-            const { title, content } = request.body;
+            const { id, userId } = request.params;
+            const { description, address, pictureUrl } = request.body;
 
-            const { user } = response.locals;
             logger.info('[UPDATE] Update un post'); // Log d'information en couleur
-            await postModel.update(id, user.id, {
-                author: user.id,
-                content,
-                title,
+            await spotModel.update(id, userId, {
+                userId,
+                description,
+                address,
+                pictureUrl,
             });
             APIResponse(response, null, 'OK', 201);
         } catch (error: any) {
@@ -87,17 +87,21 @@ const postsController = {
     },
     getAll: async (request: Request, response: Response) => {
         try {
-            logger.info('[GET] Récupérer tout les posts'); // Log d'information en couleur
-            const posts = await postModel.getAll();
-            APIResponse(response, posts, 'OK');
+            logger.info('[GET] Récupérer tout les spots'); // Log d'information en couleur
+            const spots = await spotModel.getAll();
+
+            if (!spots)
+                return APIResponse(response, null, 'Aucun spot trouvé', 404);
+
+            APIResponse(response, spots, 'OK');
         } catch (error: any) {
             logger.error(
-                'Erreur lors de la récupération des posts: ' + error.message
+                'Erreur lors de la récupération des spots: ' + error.message
             );
             APIResponse(
                 response,
                 null,
-                'Erreur lors de la récupération des posts',
+                'Erreur lors de la récupération des spots',
                 500
             );
         }
