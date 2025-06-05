@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
+import { z } from 'zod';
 import { evaluationModel } from '../models';
 import logger from '../utils/logger';
 import { APIResponse } from '../utils/response';
+import { evaluationValidation } from '../validations/evaluations.validations';
 
 // TODO tester toute les evaluations controllers dans postman
 
@@ -15,7 +17,7 @@ const evaluationsController = {
         } catch (error: any) {
             logger.error(
                 'Erreur lors de la récupération de l\'évaluation: ' +
-                    error.message
+                error.message
             );
             APIResponse(
                 response,
@@ -34,7 +36,7 @@ const evaluationsController = {
         } catch (error: any) {
             logger.error(
                 'Erreur lors de la récupération des évaluations du spot: ' +
-                    error.message
+                error.message
             );
             APIResponse(
                 response,
@@ -53,7 +55,7 @@ const evaluationsController = {
         } catch (error: any) {
             logger.error(
                 'Erreur lors de la récupération des évaluations de l\'utilisateur: ' +
-                    error.message
+                error.message
             );
             APIResponse(
                 response,
@@ -65,7 +67,7 @@ const evaluationsController = {
     },
     create: async (request: Request, response: Response) => {
         try {
-            const { note, comment, spotId } = request.body;
+            const { note, comment, spotId } = evaluationValidation.parse(request.body);
             const { id } = response.locals.user;
             logger.info('[POST] Créer une évaluation');
             const newEvaluation = await evaluationModel.create({
@@ -76,14 +78,22 @@ const evaluationsController = {
             });
             APIResponse(response, newEvaluation, 'OK', 201);
         } catch (error: any) {
+            if (error instanceof z.ZodError) {
+                return APIResponse(
+                    response,
+                    error.errors,
+                    'Le formulaire est invalide',
+                    400
+                );
+            }
             logger.error(
-                'Erreur lors de la récupération de l\'évaluation: ' +
-                    error.message
+                'Erreur lors de la création de l\'évaluation: ' +
+                error.message
             );
             APIResponse(
                 response,
                 null,
-                'Erreur lors de la récupération de l\'évaluation',
+                'Erreur lors de la création de l\'évaluation',
                 500
             );
         }
@@ -110,6 +120,7 @@ const evaluationsController = {
     update: async (request: Request, response: Response) => {
         try {
             const { id } = request.params;
+
             const { note, comment } = request.body;
             const { user } = response.locals;
             logger.info('[UPDATE] Update une évaluation'); // Log d'information en couleur
