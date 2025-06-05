@@ -28,8 +28,7 @@ export const userModel = {
                 where: eq(users.id, id),
                 columns: {
                     id: true,
-                    username: true,
-                    pictureUrl: true,
+                    username: true
                 },
                 with: {
                     spots: {
@@ -41,7 +40,7 @@ export const userModel = {
                             modifiedAt: true,
                         },
                     },
-                    comments: {
+                    evaluations: {
                         columns: {
                             id: true,
                             comment: true,

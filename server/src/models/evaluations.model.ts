@@ -72,8 +72,9 @@ export const evaluationModel = {
                     note: evaluations.note,
                     createdAt: evaluations.createdAt
                 }).from(evaluations)
-                .where(eq(evaluations.authorId, userId))
-                .execute();
+                .where(
+                    eq(evaluations.authorId, userId)
+                ).execute();
         } catch (err: any) {
             logger.error(
                 'Impossible de récupérer les évaluations: +',
