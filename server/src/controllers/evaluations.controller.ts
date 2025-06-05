@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { evaluationModel } from '../models';
 import logger from '../utils/logger';
 import { APIResponse } from '../utils/response';
+import { evaluationValidation } from '../validations/evaluations.validations';
 import { UUID_REGEX } from '../utils/VerifyUuid';
 import { evaluationValidation } from '../validations/evaluations.validations';
 
