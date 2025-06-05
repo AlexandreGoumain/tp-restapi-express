@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { evaluationModel } from '../models';
 import logger from '../utils/logger';
 import { APIResponse } from '../utils/response';
-import { evaluationValidation } from '../validations/evaluations.validations';
+import { createEvaluationValidation, updateEvaluationValidation } from '../validations/evaluations.validations';
 
 // TODO tester toute les evaluations controllers dans postman
 
@@ -82,7 +82,7 @@ const evaluationsController = {
     },
     create: async (request: Request, response: Response) => {
         try {
-            const { note, comment, spotId } = evaluationValidation.parse(request.body);
+            const { note, comment, spotId } = createEvaluationValidation.parse(request.body);
             const { id } = response.locals.user;
 
             logger.info('[POST] Créer une évaluation');
@@ -94,6 +94,10 @@ const evaluationsController = {
             });
             APIResponse(response, newEvaluation, 'OK', 201);
         } catch (error: any) {
+            logger.error(
+                "Erreur lors de la récupération de l'évaluation: " +
+                    error.message
+            );
             if (error instanceof z.ZodError) {
                 return APIResponse(
                     response,
@@ -102,10 +106,6 @@ const evaluationsController = {
                     400
                 );
             }
-            logger.error(
-                "Erreur lors de la récupération de l'évaluation: " +
-                    error.message
-            );
             APIResponse(
                 response,
                 null,
@@ -139,7 +139,7 @@ const evaluationsController = {
         try {
             const { id } = request.params;
 
-            const { note, comment } = request.body;
+            const { note, comment } = updateEvaluationValidation.parse(request.body);
             const { user } = response.locals;
 
             logger.info('[UPDATE] Update une évaluation'); // Log d'information en couleur
@@ -153,6 +153,14 @@ const evaluationsController = {
             logger.error(
                 "Erreur lors de la màj de l'évaluation: " + error.message
             );
+            if (error instanceof z.ZodError) {
+                return APIResponse(
+                    response,
+                    error.errors,
+                    'Le formulaire est invalide',
+                    400
+                );
+            }
             APIResponse(
                 response,
                 null,
