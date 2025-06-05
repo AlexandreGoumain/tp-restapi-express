@@ -15,27 +15,27 @@ export const evaluationModel = {
                 })
                 .execute();
         } catch (err: any) {
-            logger.error('Impossible de créer le commentaire: +', err.message);
-            throw new Error('Le commentaire ne peut pas être crée');
+            logger.error("Impossible de créer l'évaluation: +", err.message);
+            throw new Error("L'évaluation ne peut pas être crée");
         }
     },
 
-    delete: (evaluationId: string, authorId: string) => {
+    delete: (evaluationId: string, userId: string) => {
         try {
             return db
                 .delete(evaluations)
                 .where(
                     and(
                         eq(evaluations.id, evaluationId),
-                        eq(evaluations.authorId, authorId)
+                        eq(evaluations.userId, userId)
                     )
                 );
         } catch (err: any) {
             logger.error(
-                'Impossible de supprimer le commentaire: +',
+                "Impossible de supprimer l'évaluation: +",
                 err.message
             );
-            throw new Error('Le commentaire ne peut pas être supprimé');
+            throw new Error("L'évaluation ne peut pas être supprimé");
         }
     },
 
@@ -53,7 +53,7 @@ export const evaluationModel = {
                     },
                 })
                 .from(evaluations)
-                .leftJoin(users, eq(evaluations.authorId, users.id))
+                .leftJoin(users, eq(evaluations.userId, users.id))
                 .where(eq(evaluations.spotId, spotId))
                 .execute();
         } catch (err: any) {
@@ -75,7 +75,7 @@ export const evaluationModel = {
                     createdAt: evaluations.createdAt,
                 })
                 .from(evaluations)
-                .where(eq(evaluations.authorId, userId))
+                .where(eq(evaluations.userId, userId))
                 .execute();
         } catch (err: any) {
             logger.error(
@@ -98,21 +98,21 @@ export const evaluationModel = {
                     },
                 })
                 .from(evaluations)
-                .leftJoin(users, eq(evaluations.authorId, users.id))
+                .leftJoin(users, eq(evaluations.userId, users.id))
                 .where(eq(evaluations.id, evaluationId))
                 .execute();
         } catch (err: any) {
             logger.error(
-                'Impossible de récupérer le commentaire: +',
+                "Impossible de récupérer l'évaluation: +",
                 err.message
             );
-            throw new Error('Le commentaire ne peut pas être récupéré');
+            throw new Error("L'évaluation ne peut pas être récupéré");
         }
     },
 
     update: (
         evaluationId: string,
-        authorId: string,
+        userId: string,
         evaluation: NewEvaluation
     ) => {
         try {
@@ -122,13 +122,13 @@ export const evaluationModel = {
                 .where(
                     and(
                         eq(evaluations.id, evaluationId),
-                        eq(evaluations.authorId, authorId)
+                        eq(evaluations.userId, userId)
                     )
                 )
                 .execute();
         } catch (err: any) {
-            logger.error("Impossible d'update le commentaire: +", err.message);
-            throw new Error('Le commentaire ne peut pas être màj');
+            logger.error("Impossible d'update l\'évaluation: +", err.message);
+            throw new Error("L'évaluation ne peut pas être màj");
         }
     },
 };

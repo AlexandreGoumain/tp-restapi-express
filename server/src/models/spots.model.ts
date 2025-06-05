@@ -25,11 +25,11 @@ export const spotModel = {
         }
     },
 
-    delete: (id: string, authorId: string) => {
+    delete: (id: string, user_id: string) => {
         try {
             return db
                 .delete(spots)
-                .where(and(eq(spots.id, id), eq(spots.userId, authorId)));
+                .where(and(eq(spots.id, id), eq(spots.userId, user_id)));
         } catch (err: any) {
             logger.error('Impossible de supprimer le spot: +', err.message);
             throw new Error('Le spot ne peut pas être supprimé');
@@ -102,12 +102,12 @@ export const spotModel = {
         }
     },
 
-    update: (id: string, authorId: string, spot: NewSpot) => {
+    update: (id: string, user_id: string, spot: NewSpot) => {
         try {
             return db
                 .update(spots)
                 .set(spot)
-                .where(and(eq(spots.id, id), eq(spots.userId, authorId)))
+                .where(and(eq(spots.id, id), eq(spots.userId, user_id)))
                 .execute();
         } catch (err: any) {
             logger.error("Impossible d'update le post: +", err.message);

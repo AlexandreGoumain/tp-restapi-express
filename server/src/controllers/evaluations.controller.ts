@@ -111,7 +111,7 @@ const evaluationsController = {
 
             logger.info('[POST] Créer une évaluation');
             const newEvaluation = await evaluationModel.create({
-                authorId: id,
+                userId: id,
                 spotId: spotId,
                 note: note,
                 comment: comment,
