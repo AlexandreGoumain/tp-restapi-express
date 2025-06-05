@@ -7,7 +7,7 @@ export interface Spot {
     description: string;
     address: string;
     createdAt: string;
-    updatedAt: string;
+    modifiedAt: string;
 }
 
 export interface CreateSpot {

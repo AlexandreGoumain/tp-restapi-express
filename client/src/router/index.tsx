@@ -6,6 +6,7 @@ import {
     LoginPage,
     ProfilPage,
     SpotDetails,
+    SpotForm,
     SpotsList,
 } from '@/features';
 import Layout from '@/layouts/Layout';
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
             {
                 path: 'spots/:id',
                 element: <SpotDetails />,
+            },
+            {
+                path: 'spots/new',
+                element: <SpotForm />,
             },
             {
                 path: 'login',
