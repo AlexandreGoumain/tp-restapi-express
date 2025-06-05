@@ -48,6 +48,7 @@ export const evaluationModel = {
                     note: evaluations.note,
                     createdAt: evaluations.createdAt,
                     author: {
+                        id: users.id,
                         username: users.username,
                     }
                 }).from(evaluations)
