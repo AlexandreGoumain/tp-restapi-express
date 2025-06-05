@@ -13,7 +13,7 @@ export const evaluations = pgTable('evaluations', {
     authorId: uuid('user_id')
         .references(() => users.id)
         .references(() => users.id, { onDelete: 'cascade' }),
-    spotId: uuid('spot')
+    spotId: uuid('spot_id')
         .references(() => spots.id)
         .references(() => spots.id, { onDelete: 'cascade' }),
     comment: varchar('comment', { length: 255 }),

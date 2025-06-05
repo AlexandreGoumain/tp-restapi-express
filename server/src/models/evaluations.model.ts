@@ -39,31 +39,47 @@ export const evaluationModel = {
         }
     },
 
-    getAll: () => {
+    getAllBySpot: (spotId: string) => {
         try {
             return db
                 .select({
                     id: evaluations.id,
                     comment: evaluations.comment,
+                    note: evaluations.note,
+                    createdAt: evaluations.createdAt,
                     author: {
-                        id: users.id,
                         username: users.username,
-                    },
-                    spot: {
-                        id: spots.id,
-                        description: spots.description,
-                    },
-                })
-                .from(evaluations)
+                    }
+                }).from(evaluations)
                 .leftJoin(users, eq(evaluations.authorId, users.id))
-                .leftJoin(spots, eq(evaluations.spotId, spots.id))
+                .where(eq(evaluations.spotId, spotId))
                 .execute();
         } catch (err: any) {
             logger.error(
-                'Impossible de récupérer les commentaires: +',
+                'Impossible de récupérer les évaluations: +',
                 err.message
             );
-            return [];
+            throw new Error('Les évaluations ne peuvent pas être récupérées');
+        }
+    },
+
+    getAllByUser: (userId: string) => {
+        try {
+            return db
+                .select({
+                    id: evaluations.id,
+                    comment: evaluations.comment,
+                    note: evaluations.note,
+                    createdAt: evaluations.createdAt
+                }).from(evaluations)
+                .where(eq(evaluations.authorId, userId))
+                .execute();
+        } catch (err: any) {
+            logger.error(
+                'Impossible de récupérer les évaluations: +',
+                err.message
+            );
+            throw new Error('Les évaluations ne peuvent pas être récupérées');
         }
     },
 
