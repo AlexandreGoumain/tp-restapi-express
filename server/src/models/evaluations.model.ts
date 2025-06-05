@@ -15,8 +15,8 @@ export const evaluationModel = {
                 })
                 .execute();
         } catch (err: any) {
-            logger.error('Impossible de créer le commentaire: +', err.message);
-            throw new Error('Le commentaire ne peut pas être crée');
+            logger.error('Impossible de créer l\'évaluation: +', err.message);
+            throw new Error('L\'évaluation ne peut pas être crée');
         }
     },
 
@@ -32,10 +32,10 @@ export const evaluationModel = {
                 );
         } catch (err: any) {
             logger.error(
-                'Impossible de supprimer le commentaire: +',
+                'Impossible de supprimer l\'évaluation: +',
                 err.message
             );
-            throw new Error('Le commentaire ne peut pas être supprimé');
+            throw new Error('L\'évaluation ne peut pas être supprimé');
         }
     },
 
@@ -102,10 +102,10 @@ export const evaluationModel = {
                 .execute();
         } catch (err: any) {
             logger.error(
-                'Impossible de récupérer le commentaire: +',
+                'Impossible de récupérer l\'évaluation: +',
                 err.message
             );
-            throw new Error('Le commentaire ne peut pas être récupéré');
+            throw new Error('L\'évaluation ne peut pas être récupéré');
         }
     },
 
@@ -126,8 +126,8 @@ export const evaluationModel = {
                 )
                 .execute();
         } catch (err: any) {
-            logger.error("Impossible d'update le commentaire: +", err.message);
-            throw new Error('Le commentaire ne peut pas être màj');
+            logger.error("Impossible d'update l\'évaluation: +", err.message);
+            throw new Error('L\'évaluation ne peut pas être màj');
         }
     },
 };
