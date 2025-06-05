@@ -5,6 +5,7 @@ import authRouter from './auth.routes';
 import spotRouter from './spots.routes';
 import userRouter from './users.routes';
 import evaluationRouter from './evaluations.routes';
+import favoriteRouter from './favorites.routes';
 
 const router = Router();
 
@@ -13,6 +14,9 @@ router.use('/spots', spotRouter);
 
 // http://localhost:3000/evaluations
 router.use('/evaluations', evaluationRouter);
+
+// http://localhost:3000/evaluations
+router.use('/favorites', favoriteRouter);
 
 // http://localhost:3000/auth
 router.use('/auth', authRouter);
