@@ -20,14 +20,14 @@ export const evaluationModel = {
         }
     },
 
-    delete: (evaluationId: string, authorId: string) => {
+    delete: (evaluationId: string, user_id: string) => {
         try {
             return db
                 .delete(evaluations)
                 .where(
                     and(
                         eq(evaluations.id, evaluationId),
-                        eq(evaluations.authorId, authorId)
+                        eq(evaluations.user_id, user_id)
                     )
                 );
         } catch (err: any) {
@@ -52,7 +52,7 @@ export const evaluationModel = {
                         username: users.username,
                     }
                 }).from(evaluations)
-                .leftJoin(users, eq(evaluations.authorId, users.id))
+                .leftJoin(users, eq(evaluations.user_id, users.id))
                 .where(eq(evaluations.spotId, spotId))
                 .execute();
         } catch (err: any) {
@@ -74,7 +74,7 @@ export const evaluationModel = {
                     createdAt: evaluations.createdAt
                 }).from(evaluations)
                 .where(
-                    eq(evaluations.authorId, userId)
+                    eq(evaluations.user_id, userId)
                 ).execute();
         } catch (err: any) {
             logger.error(
@@ -97,7 +97,7 @@ export const evaluationModel = {
                     },
                 })
                 .from(evaluations)
-                .leftJoin(users, eq(evaluations.authorId, users.id))
+                .leftJoin(users, eq(evaluations.user_id, users.id))
                 .where(eq(evaluations.id, evaluationId))
                 .execute();
         } catch (err: any) {
@@ -111,7 +111,7 @@ export const evaluationModel = {
 
     update: (
         evaluationId: string,
-        authorId: string,
+        user_id: string,
         evaluation: NewEvaluation
     ) => {
         try {
@@ -121,7 +121,7 @@ export const evaluationModel = {
                 .where(
                     and(
                         eq(evaluations.id, evaluationId),
-                        eq(evaluations.authorId, authorId)
+                        eq(evaluations.user_id, user_id)
                     )
                 )
                 .execute();

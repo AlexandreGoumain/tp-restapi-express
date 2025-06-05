@@ -10,7 +10,7 @@ import { spots, users } from './';
 
 export const evaluations = pgTable('evaluations', {
     id: uuid('id').defaultRandom().primaryKey(),
-    authorId: uuid('user_id')
+    user_id: uuid('user_id')
         .references(() => users.id)
         .references(() => users.id, { onDelete: 'cascade' }),
     spotId: uuid('spot_id')

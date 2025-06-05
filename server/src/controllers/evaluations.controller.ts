@@ -69,7 +69,7 @@ const evaluationsController = {
             const { id } = response.locals.user;
             logger.info('[POST] Créer une évaluation');
             const newEvaluation = await evaluationModel.create({
-                authorId: id,
+                user_id: id,
                 spotId: spotId,
                 note: note,
                 comment: comment
