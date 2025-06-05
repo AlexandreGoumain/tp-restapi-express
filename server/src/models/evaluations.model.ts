@@ -1,7 +1,7 @@
 import { and, eq } from 'drizzle-orm';
 import { db } from '../config/pool';
 import { NewEvaluation } from '../entities/Evaluation';
-import { evaluations, spots, users } from '../schemas';
+import { evaluations, users } from '../schemas';
 import logger from '../utils/logger';
 
 export const evaluationModel = {
