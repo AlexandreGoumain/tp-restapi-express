@@ -50,8 +50,9 @@ export const evaluationModel = {
                     author: {
                         id: users.id,
                         username: users.username,
-                    }
-                }).from(evaluations)
+                    },
+                })
+                .from(evaluations)
                 .leftJoin(users, eq(evaluations.authorId, users.id))
                 .where(eq(evaluations.spotId, spotId))
                 .execute();
@@ -71,11 +72,11 @@ export const evaluationModel = {
                     id: evaluations.id,
                     comment: evaluations.comment,
                     note: evaluations.note,
-                    createdAt: evaluations.createdAt
-                }).from(evaluations)
-                .where(
-                    eq(evaluations.authorId, userId)
-                ).execute();
+                    createdAt: evaluations.createdAt,
+                })
+                .from(evaluations)
+                .where(eq(evaluations.authorId, userId))
+                .execute();
         } catch (err: any) {
             logger.error(
                 'Impossible de récupérer les évaluations: +',
