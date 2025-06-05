@@ -104,17 +104,6 @@ const authController = {
                 );
             }
 
-            // Si j'ai une image dans le formulaire, je l'envoie dans S3 et je sauvegarde l'url
-            let pictureUrl: string | null = null;
-            if (request.file) {
-                const { buffer, mimetype, originalname } = request.file;
-                pictureUrl = await uploadToS3({
-                    buffer,
-                    fileName: originalname,
-                    mimeType: mimetype,
-                });
-            }
-
             // On ajoute le new user dans la db avec le mdp hashé
             const [newUser] = await userModel.create({
                 username,

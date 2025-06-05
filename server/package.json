@@ -26,7 +26,6 @@
         "drizzle-orm": "^0.44.1",
         "express": "^5.1.0",
         "jsonwebtoken": "^9.0.2",
-        "multer": "^2.0.1",
         "pg": "^8.16.0",
         "postgres": "^3.4.7",
         "winston": "^3.17.0",
