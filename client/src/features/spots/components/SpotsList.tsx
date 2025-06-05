@@ -1,19 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useEffect } from 'react';
+import { useGetSpots } from '@/hooks';
 import { useNavigate } from 'react-router-dom';
-import { useGetSpots } from '../hooks';
 
 export default function SpotsList() {
     const { data, isLoading, isError, error } = useGetSpots();
-
     const spots = data?.data || [];
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        console.log(spots);
-    });
 
     if (isLoading) {
         return (

@@ -29,6 +29,7 @@ export const userModel = {
                 columns: {
                     id: true,
                     username: true,
+                    email: true,
                 },
                 with: {
                     spots: {

@@ -1,6 +1,6 @@
+import type { CreateSpot, UpdateSpot } from '@/features/spots/types';
+import { spotsService } from '@/services';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { spotsApi } from './api';
-import type { CreateSpot, UpdateSpot } from './types';
 
 export const SPOTS_KEYS = {
     all: ['spots'] as const,
@@ -8,73 +8,56 @@ export const SPOTS_KEYS = {
     detail: (id: string) => [...SPOTS_KEYS.details(), id] as const,
 };
 
-const useGetSpots = () => {
+export function useGetSpots() {
     return useQuery({
         queryKey: SPOTS_KEYS.all,
-        queryFn: () => spotsApi.getSpots(),
+        queryFn: () => spotsService.getSpots(),
     });
-};
+}
 
-const useGetSpotById = (id: string) => {
+export function useGetSpotById(id: string) {
     return useQuery({
         queryKey: SPOTS_KEYS.detail(id),
-        queryFn: () => spotsApi.getSpotById(id),
-        enabled: !!id, // Désactiver la requête si l'ID est vide
+        queryFn: () => spotsService.getSpotById(id),
+        enabled: !!id, // request is disabled if id is empty
     });
-};
+}
 
-/**
- * Hook pour créer un nouveau post
- */
-const useCreatePost = () => {
+export function useCreateSpot() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: CreateSpot) => spotsApi.createSpot(data),
+        mutationFn: (data: CreateSpot) => spotsService.createSpot(data),
         onSuccess: () => {
-            // Invalider les requêtes de liste pour les recharger
+            // Invalidate list queries to reload
             queryClient.invalidateQueries({ queryKey: SPOTS_KEYS.all });
         },
     });
-};
+}
 
-/**
- * Hook pour mettre à jour un post existant
- */
-const useUpdatePost = (id: string) => {
+export function useUpdateSpot(id: string) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: UpdateSpot) => spotsApi.updateSpot(id, data),
+        mutationFn: (data: UpdateSpot) => spotsService.updateSpot(id, data),
         onSuccess: () => {
-            // Invalider les requêtes spécifiques
+            // Invalidate specific queries
             queryClient.invalidateQueries({ queryKey: SPOTS_KEYS.detail(id) });
             queryClient.invalidateQueries({ queryKey: SPOTS_KEYS.all });
         },
     });
-};
+}
 
-/**
- * Hook pour supprimer un post
- */
-const useDeletePost = () => {
+export function useDeleteSpot() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (id: string) => spotsApi.deleteSpot(id),
+        mutationFn: (id: string) => spotsService.deleteSpot(id),
         onSuccess: (_, id) => {
-            // Invalider les requêtes
+            // Invalidate queries
             queryClient.invalidateQueries({ queryKey: SPOTS_KEYS.all });
-            // Supprimer le post du cache
+            // Remove spot from cache
             queryClient.removeQueries({ queryKey: SPOTS_KEYS.detail(id) });
         },
     });
-};
-
-export {
-    useCreatePost,
-    useDeletePost,
-    useGetSpotById,
-    useGetSpots,
-    useUpdatePost,
-};
+}

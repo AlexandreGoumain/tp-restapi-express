@@ -1,8 +1,8 @@
-import type { ApiResponse } from '@/lib/api';
-import { fetchApi } from '@/lib/api';
-import type { CreateSpot, Spot, UpdateSpot } from './types';
+import type { CreateSpot, Spot, UpdateSpot } from '@/features/spots/types';
+import { fetchApi } from './api.service';
+import type { ApiResponse } from './types';
 
-export const spotsApi = {
+export const spotsService = {
     getSpots: async (): Promise<ApiResponse<Spot[]>> => {
         return fetchApi<ApiResponse<Spot[]>>(`/spots`);
     },
