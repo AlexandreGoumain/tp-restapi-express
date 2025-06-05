@@ -28,7 +28,7 @@ export const spotRelations = relations(spots, ({ one, many }) => ({
 export const evaluationRelation = relations(evaluations, ({ one, many }) => ({
     // Une evalution n'est faite que par un seul user
     user: one(users, {
-        fields: [evaluations.userId],
+        fields: [evaluations.authorId],
         references: [users.id],
     }),
     comments: many(comments),
