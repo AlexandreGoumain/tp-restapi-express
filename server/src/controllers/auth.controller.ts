@@ -108,7 +108,6 @@ const authController = {
                 username,
                 email,
                 password: hash,
-                pictureUrl: pictureUrl,
             });
             if (!newUser)
                 return APIResponse(

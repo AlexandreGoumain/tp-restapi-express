@@ -41,7 +41,7 @@ export const userModel = {
                             modifiedAt: true,
                         },
                     },
-                    comments: {
+                    evaluations: {
                         columns: {
                             id: true,
                             comment: true,
