@@ -1,5 +1,5 @@
 export { useAuth } from './useAuth';
-export { useLogin, useLogout, useUserProfile } from './useAuthQuery';
+export { useLogin, useLogout } from './useAuthQuery';
 
 export { useIsMobile } from './use-mobile';
 

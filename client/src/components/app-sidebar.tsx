@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -14,7 +14,7 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from '@/components/ui/sidebar';
-import { useAuth, useLogout } from '@/hooks';
+import { useAuth } from '@/hooks';
 
 const data = {
     navMain: [
@@ -45,23 +45,13 @@ const data = {
         },
         {
             title: 'Se déconnecter',
-            url: '#logout',
+            url: '/',
         },
     ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-    const { isAuthenticated, user } = useAuth();
-    const logoutMutation = useLogout();
-    const navigate = useNavigate();
-
-    const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (e.currentTarget.getAttribute('href') === '#logout') {
-            e.preventDefault();
-            logoutMutation.mutate();
-            navigate('/');
-        }
-    };
+    const { isAuthenticated, user, logout } = useAuth();
 
     return (
         <Sidebar {...props}>
@@ -111,11 +101,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 : data.navUserNotConnected
                             ).map(item => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <Link
-                                            to={item.url}
-                                            onClick={handleLogout}
-                                        >
+                                    <SidebarMenuButton>
+                                        <Link to={item.url} onClick={logout}>
                                             {item.title}
                                         </Link>
                                     </SidebarMenuButton>

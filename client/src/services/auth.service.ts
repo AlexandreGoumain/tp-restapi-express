@@ -8,10 +8,8 @@ export type LoginCredentials = {
 
 export type LoginResponse = {
     message: string;
-    data: {
-        accessToken: string;
-        userId: string;
-    };
+    accessToken: string;
+    userId: string;
 };
 
 export type RegisterData = {
@@ -78,25 +76,8 @@ export const authService = {
         try {
             localStorage.removeItem('auth_token');
             localStorage.removeItem('user_id');
-
-            localStorage.setItem('auth_token', '');
-            localStorage.setItem('user_id', '');
         } catch (error) {
             console.error('Erreur lors de la déconnexion:', error);
-        }
-    },
-
-    getCurrentUser: async () => {
-        try {
-            return await fetchApi('/auth/me');
-        } catch (error) {
-            const authError: AuthError = {
-                message:
-                    error instanceof Error
-                        ? error.message
-                        : 'Échec de récupération du profil',
-            };
-            throw authError;
         }
     },
 

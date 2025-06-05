@@ -1,7 +1,13 @@
 import NotFound from '@/components/NotFound';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
-import { HomePage, LoginPage, SpotsList } from '@/features';
+import {
+    HomePage,
+    LoginPage,
+    ProfilPage,
+    SpotDetails,
+    SpotsList,
+} from '@/features';
 import Layout from '@/layouts/Layout';
 
 import { createBrowserRouter } from 'react-router-dom';
@@ -21,6 +27,10 @@ export const router = createBrowserRouter([
                 element: <SpotsList />,
             },
             {
+                path: 'spots/:id',
+                element: <SpotDetails />,
+            },
+            {
                 path: 'login',
                 element: <LoginPage />,
             },
@@ -28,7 +38,7 @@ export const router = createBrowserRouter([
                 path: 'account',
                 element: (
                     <ProtectedRoute>
-                        <div>Page de compte (à implémenter)</div>
+                        <ProfilPage />
                     </ProtectedRoute>
                 ),
             },

@@ -1,4 +1,5 @@
 import type { LoginResponse } from '@/services/auth.service';
+import type { ApiResponse } from '@/services/types';
 import type { ReactNode } from 'react';
 
 export interface User {
@@ -11,8 +12,11 @@ export interface AuthContextType {
     isLoading: boolean;
     token: string | null;
 
-    login: (email: string, password: string) => Promise<LoginResponse>;
-    logout: () => void;
+    login: (
+        email: string,
+        password: string
+    ) => Promise<ApiResponse<LoginResponse>>;
+    logout: () => Promise<void>;
 
     setUser: (user: User | null) => void;
     setToken: (token: string | null) => void;
