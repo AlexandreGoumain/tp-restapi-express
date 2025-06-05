@@ -1,4 +1,3 @@
-export * from './comments';
 export * from './evaluations';
 export * from './spots';
 export * from './users';
