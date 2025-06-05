@@ -1,7 +1,7 @@
 import { and, eq } from 'drizzle-orm';
 import { db } from '../config/pool';
 import { NewEvaluation } from '../entities/Evaluation';
-import { evaluations, spots, users } from '../schemas';
+import { evaluations, users } from '../schemas';
 import logger from '../utils/logger';
 
 export const evaluationModel = {
@@ -15,8 +15,8 @@ export const evaluationModel = {
                 })
                 .execute();
         } catch (err: any) {
-            logger.error('Impossible de créer l\'évaluation: +', err.message);
-            throw new Error('L\'évaluation ne peut pas être crée');
+            logger.error("Impossible de créer l'évaluation: +", err.message);
+            throw new Error("L'évaluation ne peut pas être crée");
         }
     },
 
@@ -32,10 +32,10 @@ export const evaluationModel = {
                 );
         } catch (err: any) {
             logger.error(
-                'Impossible de supprimer l\'évaluation: +',
+                "Impossible de supprimer l'évaluation: +",
                 err.message
             );
-            throw new Error('L\'évaluation ne peut pas être supprimé');
+            throw new Error("L'évaluation ne peut pas être supprimé");
         }
     },
 
@@ -50,8 +50,9 @@ export const evaluationModel = {
                     author: {
                         id: users.id,
                         username: users.username,
-                    }
-                }).from(evaluations)
+                    },
+                })
+                .from(evaluations)
                 .leftJoin(users, eq(evaluations.userId, users.id))
                 .where(eq(evaluations.spotId, spotId))
                 .execute();
@@ -71,11 +72,11 @@ export const evaluationModel = {
                     id: evaluations.id,
                     comment: evaluations.comment,
                     note: evaluations.note,
-                    createdAt: evaluations.createdAt
-                }).from(evaluations)
-                .where(
-                    eq(evaluations.userId, userId)
-                ).execute();
+                    createdAt: evaluations.createdAt,
+                })
+                .from(evaluations)
+                .where(eq(evaluations.userId, userId))
+                .execute();
         } catch (err: any) {
             logger.error(
                 'Impossible de récupérer les évaluations: +',
@@ -102,10 +103,10 @@ export const evaluationModel = {
                 .execute();
         } catch (err: any) {
             logger.error(
-                'Impossible de récupérer l\'évaluation: +',
+                "Impossible de récupérer l'évaluation: +",
                 err.message
             );
-            throw new Error('L\'évaluation ne peut pas être récupéré');
+            throw new Error("L'évaluation ne peut pas être récupéré");
         }
     },
 
@@ -127,7 +128,7 @@ export const evaluationModel = {
                 .execute();
         } catch (err: any) {
             logger.error("Impossible d'update l\'évaluation: +", err.message);
-            throw new Error('L\'évaluation ne peut pas être màj');
+            throw new Error("L'évaluation ne peut pas être màj");
         }
     },
 };

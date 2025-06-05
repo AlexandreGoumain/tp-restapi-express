@@ -124,6 +124,25 @@ export const userModel = {
         }
     },
 
+    findByUsername: (username: string) => {
+        try {
+            return db
+                .select({
+                    id: users.id,
+                    password: users.password,
+                    username: users.username,
+                    email: users.email,
+                })
+                .from(users)
+                .where(eq(users.username, username));
+        } catch (err: any) {
+            logger.error(
+                `Erreur lors de la récupération de l'utilisateur; ${err.message}`
+            );
+            throw new Error("Impossible de récupérer l'utilisateur");
+        }
+    },
+
     create: (user: NewUser) => {
         try {
             return db.insert(users).values(user).returning({ id: users.id });

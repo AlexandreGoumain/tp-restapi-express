@@ -8,8 +8,8 @@ import logger from '../utils/logger';
 import { hashPassword, verifyPassword } from '../utils/password';
 
 import { z } from 'zod';
-import { userRegisterValidation } from '../validations';
 import { uploadToS3 } from '../services/s3.services';
+import { userRegisterValidation } from '../validations';
 
 const { JWT_SECRET, NODE_ENV } = env;
 
@@ -69,13 +69,25 @@ const authController = {
             );
 
             // on vérifie qu'un user n'a pas déjà cet adresse email
-            const [emailAlreadyExists] =
-                await userModel.findByCredentials(email);
-            if (emailAlreadyExists) {
+            const emailAlreadyExists = await userModel.findByCredentials(email);
+
+            const usernameAlreadyExists =
+                await userModel.findByUsername(username);
+
+            if (emailAlreadyExists.length > 0) {
                 return APIResponse(
                     response,
                     null,
                     'Cette adresse email est déjà utilisée',
+                    400
+                );
+            }
+
+            if (usernameAlreadyExists.length > 0) {
+                return APIResponse(
+                    response,
+                    null,
+                    "Ce nom d'utilisateur est déjà utilisé",
                     400
                 );
             }
