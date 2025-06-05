@@ -85,7 +85,7 @@ const postsController = {
             APIResponse(response, null, 'Erreur lors de la màj du post', 500);
         }
     },
-    getAll: async (response: Response) => {
+    getAll: async (request: Request, response: Response) => {
         try {
             logger.info('[GET] Récupérer tout les spots'); // Log d'information en couleur
             const spots = await spotModel.getAll();
