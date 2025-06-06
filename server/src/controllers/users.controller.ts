@@ -192,6 +192,7 @@ export const userController = {
             const { email } = request.body;
             logger.info('[POST] Récupérer un utilisateur par email');
             const user = await userModel.findByCredentials(email);
+
             if (!user)
                 return APIResponse(
                     response,
