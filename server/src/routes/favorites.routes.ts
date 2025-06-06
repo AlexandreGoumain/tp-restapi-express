@@ -12,6 +12,17 @@ const router = Router();
 router.get('/', isAuthenticated, favoritesController.getAll);
 
 /**
+ * GET /favorites/check/:spotId
+ * ➤ Vérifie si un spot est dans les favoris de l'utilisateur connecté
+ */
+router.get(
+    '/check/:spotId',
+    validateUUIDParam('spotId'),
+    isAuthenticated,
+    favoritesController.checkFavorite
+);
+
+/**
  * POST /favorites
  * ➤ Ajoute un spot aux favoris de l'utilisateur connecté
  * Body attendu : { spotId: string }

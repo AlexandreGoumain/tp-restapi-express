@@ -15,6 +15,13 @@
       "when": 1749108608156,
       "tag": "0001_blue_prima",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749197183683,
+      "tag": "0002_brief_molecule_man",
+      "breakpoints": true
     }
   ]
 }
