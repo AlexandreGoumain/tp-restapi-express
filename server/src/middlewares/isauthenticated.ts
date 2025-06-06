@@ -11,6 +11,7 @@ export const isAuthenticated = (
     next: NextFunction
 ) => {
     const { accessToken } = request.cookies; // on récupére le cookie "accessToken" qui contient le JWT
+
     if (!accessToken)
         return APIResponse(response, null, 'Vous devez être connecté', 401);
 

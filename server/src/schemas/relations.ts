@@ -5,6 +5,7 @@ import { favorites } from './favorites';
 export const userRelations = relations(users, ({ many }) => ({
     spots: many(spots), // Un user peut avoir plusieurs spots
     evaluations: many(evaluations), // Un user peut avoir plusieurs commentaires
+    favorites: many(favorites), // Un user peut avoir plusieurs favoris
 }));
 
 export const spotRelations = relations(spots, ({ one, many }) => ({

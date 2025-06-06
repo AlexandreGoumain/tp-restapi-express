@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import favoritesController from '../controllers/favorites.controller';
-import { validateUUIDParam } from '../middlewares/validateUUIDParam';
 import { isAuthenticated } from '../middlewares';
+import { validateUUIDParam } from '../middlewares/validateUUIDParam';
 
 const router = Router();
 
@@ -22,6 +22,11 @@ router.post('/', isAuthenticated, favoritesController.addFavorite);
  * DELETE /favorites/:spotId
  * ➤ Supprime un favori (spot) pour l'utilisateur connecté
  */
-router.delete('/:spotId', validateUUIDParam('spotId'), isAuthenticated, favoritesController.removeFavorite);
+router.delete(
+    '/:spotId',
+    validateUUIDParam('spotId'),
+    isAuthenticated,
+    favoritesController.removeFavorite
+);
 
 export default router;

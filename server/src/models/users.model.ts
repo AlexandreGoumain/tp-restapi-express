@@ -2,7 +2,7 @@ import { db } from '../config/pool';
 import logger from '../utils/logger';
 
 import { eq } from 'drizzle-orm';
-import { NewUser } from '../entities/User';
+import { NewUser } from '../entities';
 import { users } from '../schemas';
 
 export const userModel = {
@@ -47,6 +47,21 @@ export const userModel = {
                             comment: true,
                             spotId: true,
                             createdAt: true,
+                        },
+                    },
+                    favorites: {
+                        columns: {
+                            spotId: true,
+                        },
+                        with: {
+                            spot: {
+                                columns: {
+                                    id: true,
+                                    description: true,
+                                    address: true,
+                                    createdAt: true,
+                                },
+                            },
                         },
                     },
                 },

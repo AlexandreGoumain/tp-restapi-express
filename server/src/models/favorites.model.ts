@@ -25,7 +25,7 @@ export const favoriteModel = {
         }
     },
 
-    add: (userId: string, spotId: string) => {
+    add: async (userId: string, spotId: string) => {
         try {
             return db
                 .insert(favorites)
