@@ -73,6 +73,7 @@ export const evaluationModel = {
                     comment: evaluations.comment,
                     note: evaluations.note,
                     createdAt: evaluations.createdAt,
+                    spotId: evaluations.spotId,
                 })
                 .from(evaluations)
                 .where(eq(evaluations.userId, userId))

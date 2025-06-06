@@ -1,7 +1,7 @@
+import { and, eq } from 'drizzle-orm';
 import { db } from '../config/pool';
-import logger from '../utils/logger';
 import { favorites, spots } from '../schemas';
-import { eq, and } from 'drizzle-orm';
+import logger from '../utils/logger';
 
 export const favoriteModel = {
     getAllByUser: (userId: string) => {
@@ -11,6 +11,7 @@ export const favoriteModel = {
                     spotId: favorites.spotId,
                     description: spots.description,
                     address: spots.address,
+                    createdAt: spots.createdAt,
                 })
                 .from(favorites)
                 .leftJoin(spots, eq(favorites.spotId, spots.id))
@@ -20,7 +21,7 @@ export const favoriteModel = {
             logger.error(
                 `Erreur lors de la récupération des favoris; ${err.message}`
             );
-            throw new Error("Impossible de récupérer les favoris");
+            throw new Error('Impossible de récupérer les favoris');
         }
     },
 
@@ -34,9 +35,7 @@ export const favoriteModel = {
                 })
                 .execute();
         } catch (err: any) {
-            logger.error(
-                `Erreur lors de l'ajout du favoris; ${err.message}`
-            );
+            logger.error(`Erreur lors de l'ajout du favoris; ${err.message}`);
             throw new Error("Impossible d'ajouter le favori");
         }
     },
@@ -56,7 +55,7 @@ export const favoriteModel = {
             logger.error(
                 `Erreur lors de la suppression du favoris; ${err.message}`
             );
-            throw new Error("Impossible de supprimer le favori");
+            throw new Error('Impossible de supprimer le favori');
         }
     },
 };
